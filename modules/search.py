@@ -4,9 +4,8 @@ import pandas as pd
 from dotenv import load_dotenv
 import os
 
-
-API_KEY = "AIzaSyBKtyA7yTlgtSnrrxthJU5mvp3ZrVnQqzs"
-SEARCH_ENGINE_ID = "a523e4cdce5a14354"
+API_KEY = "AIzaSyBtrre4MqXUSHIT27aVpTI4q-LO_06QBDg"
+SEARCH_ENGINE_ID = "03fe95c18b60d409b"
 
 
 def clean_filename(filename):
@@ -36,6 +35,7 @@ def make_request(payload):
 # Function to get the search output as dictionary
 def search_output_dictionary(query, result_total=10):
     items = []
+    ids = []
     reminder = result_total % 10
     if reminder > 0:
         pages = (result_total // 10) + 1
@@ -52,9 +52,13 @@ def search_output_dictionary(query, result_total=10):
     
     
     titles = [item['title'] for item in items]
-    for title in titles[2:]:
-
-        print(title)
+    for title in titles:
+            start = title.find('(')
+            end = title.find(')')
+            if start != -1 and end != -1 and start + 1 < end:
+                ids.append(title[start+2:end])  
+    return(ids)
+    
 
 
 # Function to get the search result as a excel file
@@ -83,7 +87,7 @@ def search_output_excel(query, result_total=10):
 
 
 
-search_query = 'Bitcoin'
-total_results = 40
-search_output_dictionary(search_query, total_results)
+# search_query = 'Bitcoin'
+# total_results = 6
+# search_output_dictionary(search_query, total_results)
 
